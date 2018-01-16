@@ -7,6 +7,7 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
 
 
 
@@ -28,42 +29,69 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>Item 1</td>
-            <td>$1</td>
-			<td> <button id="btn" value="usun" onClick="testclick($(this))">btn</button></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Item 2</td>
-            <td>$2</td>
-        </tr>
-		<tr class='test-row'></tr>
+		<tr class='test-row'><td> <button class="btn" value="usun" onClick="testclick($(this))">btn</button></td> </tr>
+		<tr class='test-row'><td> <button class="btn" value="usun" onClick="testclick($(this))">btn</button></td> </tr>
+		<tr class='test-row'><td> <button class="btn" value="usun" onClick="testclick($(this))">btn</button></td> </tr>
+		<tr class='test-row'><td> <button class="btn" value="usun" onClick="testclick($(this))">btn</button></td> </tr>
     </tbody>
 </table>
 
+        <div class="container">
+            <form action="#">
+
+                <input type="text" name="name" placeholder="name" data-bind="value: name">
+                <input type="text" name="surname" placeholder="surname">
+                <input type="submit" value="">
+                
+                
+            </form>
+        </div>
+
 <script type="text/javascript"> 
 
-var buttonSelector  = $("#btn");
-$('#tableid').on('click', buttonSelector, function(){
- 
-	
-});
+var buttonSelector  = $(".btn");
 
 function testclick(element){
-$(buttonSelector).closest ('tr').remove ();
+    $(element).parent ().parent().remove ();
 }
+
 function addRow(max){
 	
 	for(i = 0; i < max ; i++) {
 		$('.test-row').append('<td>' + 'test' + i +'</td>');
-	
 	}
-
 }
 
 addRow(5);
+
+
+
+// $.getJSON("data.json", function(data) {
+//     console.log(data.name);
+//
+// });
+
+// View model
+var viewModel = {
+    name : ko.observable("Bartoszu"),
+    surname : ko.observable("Wojtalu")
+};
+// stupid function =)
+viewModel.hasALotOfPets = ko.computed(function() {
+    return this.name().length > 2
+}, viewModel);
+
+// View model to json
+var jsonData = ko.toJSON(viewModel);
+
+// json parsed to object
+var parsed = JSON.parse(jsonData);
+
+console.log(typeof parsed.name);
+
+viewModel.name(parsed.name.toUpperCase());
+viewModel.surname(parsed.surname);
+ko.applyBindings(viewModel);
 
 </script>
 	</body>
